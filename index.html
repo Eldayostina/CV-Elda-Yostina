@@ -7,87 +7,928 @@
   <link rel="stylesheet" href="css/kube.min.css" />
   <link rel="stylesheet" href="css/font-awesome.min.css" />
   <link rel="stylesheet" href="css/custom.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet" />
   <style>
-    /* Tambahan Mobile Responsive */
-    @media (max-width: 768px) {
-      /* Navbar */
-      .main-nav {
-        display: none; /* disembunyikan default */
-        flex-direction: column;
-        background: #fff;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        padding: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        z-index: 999;
-      }
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: "Lato", sans-serif;
+      color: #333;
+      line-height: 1.6;
+    }
 
-      .nav-toggle {
-        display: block;
-        cursor: pointer;
-        font-size: 24px;
-        padding: 10px;
-        color: #333;
-      }
+    /* Navigation */
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .top-nav .logo {
+      font-family: "Playfair Display SC", serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: #1e88e5;
+    }
+    
+    .navbar.item-nav ul li a {
+      font-weight: 600;
+      color: #555;
+      transition: all 0.3s ease;
+      padding: 10px 15px;
+    }
+    
+    .navbar.item-nav ul li a:hover {
+      color: #1e88e5;
+      transform: translateY(-2px);
+    }
+    
+    .navbar.item-nav ul li.active a {
+      color: #1e88e5;
+      border-bottom: 3px solid #1e88e5;
+    }
 
-      .main-nav.active {
-        display: flex;
-      }
+    /* Section Common Styles */
+    section {
+      padding: 80px 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 60px;
+      color: #111;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #1e88e5;
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
 
-      /* Section */
-      section {
-        padding: 20px 15px;
-      }
+    /* About Section */
+    .about {
+      background: linear-gradient(135deg, #f8fafc 0%, #e6f0f9 100%);
+    }
+    
+    .about-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    
+    .about-photo {
+      flex: 0 0 350px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .about-photo img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      transition: all 0.5s ease;
+    }
+    
+    .about-photo:hover img {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .about-text h2 {
+      font-size: 42px;
+      margin: 0 0 15px;
+      color: #222;
+      line-height: 1.2;
+    }
+    
+    #typed {
+      color: #1e88e5;
+      font-weight: bold;
+      min-height: 60px;
+      display: inline-block;
+      font-size: 28px;
+    }
+    
+    .about-text p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+    
+    /* Contact Buttons */
+    .contact-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .btn-contact {
+      position: relative;
+      overflow: hidden;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 15px;
+      background: #1e88e5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
+    }
+    
+    .btn-contact:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(30, 136, 229, 0.4);
+      background: #1565c0;
+    }
+    
+    .btn-contact img {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+    }
+    
+    /* Ripple Effect */
+    .btn-contact::after {
+      content: "";
+      position: absolute;
+      width: 300%;
+      height: 300%;
+      top: 50%;
+      left: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.5s ease;
+      pointer-events: none;
+    }
+    
+    .btn-contact:active::after {
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.5s ease;
+    }
 
-      /* Foto profil */
-      .about img {
-        max-width: 120px;
-        margin-bottom: 15px;
-      }
+    /* Experiences Section */
+    .experiences {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    }
+    
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .exp-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .exp-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .exp-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #222;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .exp-card h3 i {
+      color: #1e88e5;
+      font-size: 24px;
+    }
+    
+    .exp-card p {
+      color: #555;
+      margin-bottom: 10px;
+    }
+    
+    .exp-card ul {
+      padding-left: 20px;
+      color: #555;
+    }
+    
+    .exp-card ul li {
+      margin-bottom: 8px;
+    }
 
-      /* Grid jadi 1 kolom */
-      .work-list, .timeline, .award-list, .skills-list {
-        display: block !important;
-      }
+    /* Achievements Section */
+    .achievements {
+      background: linear-gradient(135deg, #f0f4f8 0%, #dfe6ed 100%);
+    }
+    
+    .ach-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    
+    .ach-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .ach-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .ach-content {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .ach-image {
+      flex: 0 0 40%;
+      min-height: 200px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin: 15px;
+    }
+    
+    .ach-image img {
+      max-width: 100%;
+      max-height: 180px;
+      width: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .ach-card:hover .ach-image img {
+      transform: scale(1.03);
+    }
+    
+    .doc-link {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(30, 136, 229, 0.9);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 11px;
+    }
+    
+    .doc-link i {
+      font-size: 14px;
+    }
+    
+    .doc-link:hover {
+      background: #1e88e5;
+      transform: translateY(-3px);
+    }
+    
+    .ach-rank {
+      display: inline-block;
+      background: #1e88e5;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    
+    .ach-title {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #222;
+    }
+    
+    .ach-desc {
+      color: #555;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .ach-date {
+      color: #777;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .ach-date i {
+      font-size: 16px;
+    }
 
-      .work-list .item, 
-      .award-list .item,
-      .skills-list li {
-        margin-bottom: 15px;
-      }
+    /* Skills Section */
+    .skills {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+    
+    .skills-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    
+    .skills-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .skills-card h3 {
+      color: #1e88e5;
+      margin-bottom: 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .skills-card h3 i {
+      font-size: 24px;
+    }
+    
+    .cert-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .cert-list li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #555;
+    }
+    
+    .cert-list i {
+      color: #1e88e5;
+      margin-top: 3px;
+    }
+    
+    .skill-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .skill-badge {
+      background: #e3f2fd;
+      color: #1e88e5;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .soft-badges .skill-badge {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
 
-      /* Card personal info */
-      .card {
-        padding: 15px;
-        margin: 10px 0;
+    /* Personal Info Section */
+    .personal-info {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    }
+    
+    .info-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .info-photo {
+      flex: 0 0 350px;
+    }
+    
+    .profile-img {
+      width: 100%;
+      max-width: 250px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-img:hover {
+      transform: scale(1.02);
+    }
+    
+    .info-details {
+      flex: 1;
+    }
+    
+    .info-grid {
+      display: flex;
+      gap: 30px;
+      margin: 40px 0;
+    }
+    
+    .info-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-item {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .info-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .info-item i {
+      font-size: 24px;
+      color: #1e88e5;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e3f2fd;
+      border-radius: 50%;
+    }
+    
+    .info-item h4 {
+      margin: 0 0 5px 0;
+      color: #555;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .info-item p {
+      margin: 0;
+      color: #222;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 25px;
+      background: #1e88e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-download:hover {
+      background: #1565c0;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(21, 101, 192, 0.4);
+    }
+    
+    .btn-contact-me {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 25px;
+      background: #4caf50;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-contact-me:hover {
+      background: #388e3c;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(56, 142, 60, 0.4);
+    }
+
+    /* Mobile Navigation Styles */
+    @media (max-width: 992px) {
+      .navbar.item-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px !important;
+        padding: 10px 0;
+      }
+      
+      .navbar.item-nav ul li a {
+        padding: 8px 12px;
+        font-size: 14px;
       }
     }
 
-    /* Default sembunyikan toggle di desktop */
-    .nav-toggle {
-      display: none;
+    /* Mobile Responsive Styles */
+    @media (max-width: 992px) {
+      section {
+        padding: 60px 15px;
+        min-height: auto;
+      }
+      
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+      
+      .about-photo {
+        flex: 0 0 auto;
+      }
+      
+      .contact-buttons {
+        justify-content: center;
+      }
+      
+      .ach-card {
+        flex-direction: column;
+      }
+      
+      .ach-image {
+        width: 80%;
+        margin: 0 auto 15px;
+        order: -1;
+        min-height: 180px;
+      }
+      
+      .ach-image img {
+        max-height: 160px;
+      }
+      
+      .info-wrapper {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .info-photo {
+        flex: 0 0 auto;
+        text-align: center;
+      }
+      
+      .profile-img {
+        max-width: 300px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* Navigation adjustments */
+      .main-nav {
+        padding: 10px 0;
+      }
+      
+      .navbar.item-nav ul {
+        gap: 10px !important;
+      }
+      
+      .navbar.item-nav ul li a {
+        padding: 6px 10px;
+        font-size: 13px;
+        border-radius: 15px;
+      }
+      
+      /* Section adjustments */
+      section {
+        padding: 40px 15px;
+      }
+      
+      .section-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+      }
+      
+      /* About section mobile */
+      .about-text h2 {
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      #typed {
+        font-size: 22px;
+        min-height: 50px;
+        text-align: center;
+        display: block;
+      }
+      
+      .about-text p {
+        text-align: justify;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      
+      .contact-buttons {
+        justify-content: center;
+        gap: 12px;
+      }
+      
+      .btn-contact {
+        padding: 10px 18px;
+        font-size: 14px;
+        flex: 1;
+        max-width: 140px;
+        justify-content: center;
+      }
+      
+      /* Experience cards mobile */
+      .exp-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .exp-card {
+        padding: 20px;
+      }
+      
+      .exp-card h3 {
+        font-size: 18px;
+        text-align: center;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .exp-card h3 i {
+        font-size: 28px;
+        margin-bottom: 5px;
+      }
+      
+      /* Achievement cards mobile */
+      .ach-grid {
+        gap: 25px;
+      }
+      
+      .ach-card {
+        flex-direction: column;
+      }
+      
+      .ach-image {
+        width: 100%;
+        margin: 0 0 15px 0;
+        min-height: 150px;
+        order: -1;
+      }
+      
+      .ach-image img {
+        max-height: 140px;
+      }
+      
+      .ach-content {
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .ach-title {
+        font-size: 20px;
+      }
+      
+      .ach-desc {
+        text-align: justify;
+        line-height: 1.6;
+      }
+      
+      /* Skills section mobile */
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .skills-card {
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .skill-badges {
+        justify-content: center;
+      }
+      
+      /* Personal info mobile */
+      .info-grid {
+        flex-direction: column;
+        gap: 20px;
+        margin: 30px 0;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn-download,
+      .btn-contact-me {
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      /* Ultra mobile adjustments */
+      .navbar.item-nav ul {
+        gap: 8px !important;
+      }
+      
+      .navbar.item-nav ul li a {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+      
+      .about-photo img {
+        width: 220px;
+        height: 220px;
+      }
+      
+      .about-text h2 {
+        font-size: 26px;
+        line-height: 1.3;
+      }
+      
+      #typed {
+        font-size: 18px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+      }
+      
+      .contact-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .btn-contact {
+        width: 200px;
+        max-width: none;
+      }
+      
+      .profile-img {
+        max-width: 200px;
+      }
+      
+      .info-item {
+        padding: 15px;
+        gap: 15px;
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .info-item i {
+        font-size: 20px;
+        width: 36px;
+        height: 36px;
+      }
+      
+      .exp-card,
+      .ach-content,
+      .skills-card {
+        padding: 15px;
+      }
+      
+      .ach-title {
+        font-size: 18px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      /* Extra small screens */
+      section {
+        padding: 30px 10px;
+      }
+      
+      .section-container {
+        padding: 0 10px;
+      }
+      
+      .about-text h2 {
+        font-size: 22px;
+      }
+      
+      #typed {
+        font-size: 16px;
+      }
+      
+      .section-title {
+        font-size: 22px;
+      }
+      
+      .navbar.item-nav ul li a {
+        padding: 4px 6px;
+        font-size: 11px;
+      }
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Fix for very small screens landscape */
+    @media (max-height: 500px) and (orientation: landscape) {
+      section {
+        min-height: auto;
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="nav-toggle"><i class="fa fa-bars"></i></div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#about">About</a></li>
+  <!-- Navigation -->
+<div class="main-nav">
+  <div class="container">
+    <header class="top-nav" style="display:flex; align-items:center; justify-content:space-between; padding:15px 0;">
+
+      <!-- Navbar -->
+      <nav id="navbar-1" class="navbar item-nav">
+        <ul style="display:flex; gap:25px; list-style:none; margin:0; padding:0;">
+          <li class="active"><a href="#about">About</a></li>
           <li><a href="#experiences">Experiences</a></li>
           <li><a href="#achievements">Achievements</a></li>
           <li><a href="#skills">Skills</a></li>
-          <li><a href="#personal">Personal Info</a></li>
+          <li><a href="#personal-info">Personal Info</a></li>
         </ul>
       </nav>
-    </div>
-  </header>
+    </header>
+  </div>
+</div>
 
- <!-- About Section -->
+
+
+  <!-- About Section -->
   <section id="about" class="about">
     <div class="section-container">
       <div class="about-container">
@@ -432,24 +1273,116 @@
   </div>
 </section>
 
+  <!-- JavaScript Libraries -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/typed.min.js"></script>
+  <script src="js/kube.min.js"></script>
+  <script src="js/site.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <!-- ====== Script ====== -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
-    // Typed.js
-    var typed = new Typed(".typed", {
-      strings: ["Junior web developer", "Design", "UI/UX", "Freelance"],
-      typeSpeed: 60,
-      backSpeed: 40,
-      loop: true
+    // Typed.js Effect
+    function newTyped(){}
+    $(function(){
+      $("#typed").typed({
+        strings: ["Junior web depelover", "Design", "UI/UX", "Freelance"],
+        typeSpeed: 80,
+        backSpeed: 40,
+        backDelay: 1000,
+        startDelay: 300,
+        contentType: "html",
+        loop: true,
+        resetCallback: function() { newTyped() }
+      });
+      $(".reset").click(function(){
+        $("#typed").typed("reset");
+      });
     });
 
-    // Navbar Toggle
-    const toggle = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('.main-nav');
+    // Contact Buttons Animation
+    document.querySelectorAll(".btn-contact").forEach((btn, index) => {
+      setTimeout(() => {
+        btn.style.opacity = "1";
+        btn.style.transform = "translateY(0)";
+      }, index * 200 + 500);
 
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('active');
+      btn.addEventListener("click", () => {
+        const link = btn.getAttribute("data-link");
+        window.open(link, "_blank");
+      });
+    });
+
+    // Photo Animation
+    const aboutPhoto = document.getElementById("about-photo");
+
+    function animatePhoto() {
+      aboutPhoto.style.transform = "scale(1.1) rotate(-3deg)";
+      aboutPhoto.style.boxShadow = "0 25px 50px rgba(0,0,0,0.3)";
+
+      setTimeout(() => {
+        aboutPhoto.style.transform = "scale(1) rotate(0)";
+        aboutPhoto.style.boxShadow = "0 15px 35px rgba(0,0,0,0.2)";
+      }, 800);
+    }
+
+    // Animate elements when section is in view
+    const animateOnScroll = (elements, className) => {
+      elements.forEach((element, index) => {
+        setTimeout(() => {
+          element.classList.add(className);
+        }, index * 200);
+      });
+    };
+
+    // Set up Intersection Observers
+    const createObserver = (targetId, animationFunc) => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animationFunc();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      const target = document.querySelector(targetId);
+      if (target) observer.observe(target);
+    };
+
+    // Experience Cards Animation
+    const expCards = document.querySelectorAll('.exp-card');
+    createObserver('#experiences', () => {
+      animateOnScroll(expCards, 'animate__fadeInUp');
+      expCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, index * 150);
+      });
+    });
+
+    // Achievement Cards Animation
+    const achCards = document.querySelectorAll('.ach-card');
+    createObserver('#achievements', () => {
+      animateOnScroll(achCards, 'animate__fadeInUp');
+      achCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, index * 150);
+      });
+    });
+
+    // Navigation click handlers
+    document.querySelectorAll("a[href='#about']").forEach(link => {
+      link.addEventListener("click", () => {
+        setTimeout(animatePhoto, 400);
+      });
+    });
+
+    // Animate photo on page load
+    window.addEventListener('load', function() {
+      setTimeout(animatePhoto, 1000);
     });
   </script>
 </body>
